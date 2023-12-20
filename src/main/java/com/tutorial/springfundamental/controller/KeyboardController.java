@@ -3,6 +3,7 @@ package com.tutorial.springfundamental.controller;
 import com.tutorial.springfundamental.dto.KeyboardRecord;
 import com.tutorial.springfundamental.entity.Keyboard;
 import com.tutorial.springfundamental.service.KeyboardService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -45,13 +46,13 @@ public class KeyboardController {
 
     @PostMapping(value = "")
     @ResponseStatus(HttpStatus.CREATED)
-    public Keyboard createKeyboard(@RequestBody KeyboardRecord request) {
+    public Keyboard createKeyboard(@Valid @RequestBody KeyboardRecord request) {
         return keyboardService.saveKeyboard(request);
     }
 
     @PutMapping(value = "/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Keyboard updateKeyboard(@PathVariable("id") String id, @RequestBody KeyboardRecord request) {
+    public Keyboard updateKeyboard(@PathVariable("id") String id, @Valid @RequestBody KeyboardRecord request) {
         return keyboardService.updateKeyboard(id, request);
     }
 
