@@ -3,7 +3,7 @@ package com.tutorial.springfundamental.dto;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 
-public record CustomerRecord(
+public record CustomerRequest(
 
         @NotNull
         String username,

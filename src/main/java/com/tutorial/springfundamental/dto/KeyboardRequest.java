@@ -4,7 +4,7 @@ import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 
-public record KeyboardRecord(
+public record KeyboardRequest(
 
         @NotNull
         String name,

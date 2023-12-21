@@ -1,6 +1,6 @@
 package com.tutorial.springfundamental.service;
 
-import com.tutorial.springfundamental.dto.CustomerRecord;
+import com.tutorial.springfundamental.dto.CustomerRequest;
 import com.tutorial.springfundamental.entity.Customer;
 import com.tutorial.springfundamental.exception.InvalidException;
 import com.tutorial.springfundamental.exception.NotFoundException;
@@ -29,7 +29,7 @@ public class CustomerService {
                 .orElseThrow(() -> new NotFoundException("User not found"));
     }
 
-    public Customer saveCustomer(CustomerRecord request) {
+    public Customer saveCustomer(CustomerRequest request) {
         // Validate pre-requisite
         try {
             log.info("Create user with username: {}", request.username());
@@ -49,7 +49,7 @@ public class CustomerService {
         }
     }
 
-    private void validateCustomer(CustomerRecord request) {
+    private void validateCustomer(CustomerRequest request) {
         // Validate Age
         var formatter = DateTimeFormatter.ofPattern(DATE_FORMAT);
         var dateOfBirth = LocalDate.parse(request.dateOfBirth(), formatter);

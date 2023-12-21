@@ -1,6 +1,6 @@
 package com.tutorial.springfundamental.service;
 
-import com.tutorial.springfundamental.dto.KeyboardRecord;
+import com.tutorial.springfundamental.dto.KeyboardRequest;
 import com.tutorial.springfundamental.entity.Keyboard;
 import com.tutorial.springfundamental.exception.NotFoundException;
 import com.tutorial.springfundamental.repository.KeyboardRepository;
@@ -26,7 +26,7 @@ public class KeyboardService {
                 .orElseThrow(() -> new NotFoundException("Keyboard not found"));
     }
 
-    public Keyboard saveKeyboard(KeyboardRecord request) {
+    public Keyboard saveKeyboard(KeyboardRequest request) {
         var keyboard = new Keyboard();
         keyboard.setName(request.name());
         keyboard.setQuantity(request.quantity());
@@ -37,7 +37,7 @@ public class KeyboardService {
         return keyboard;
     }
 
-    public Keyboard updateKeyboard(String id, KeyboardRecord request) {
+    public Keyboard updateKeyboard(String id, KeyboardRequest request) {
         var existingKeyboard = getKeyboardById(id);
         existingKeyboard.setName(request.name());
         existingKeyboard.setQuantity(request.quantity());
