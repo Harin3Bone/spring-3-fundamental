@@ -1,10 +1,12 @@
 package com.tutorial.springfundamental.service;
 
+import com.tutorial.springfundamental.constants.ErrorMessage;
 import com.tutorial.springfundamental.dto.CustomerRequest;
 import com.tutorial.springfundamental.entity.Customer;
 import com.tutorial.springfundamental.exception.InvalidException;
 import com.tutorial.springfundamental.exception.NotFoundException;
 import com.tutorial.springfundamental.repository.CustomerRepository;
+import com.tutorial.springfundamental.utils.DateFormatUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -12,7 +14,6 @@ import org.springframework.stereotype.Service;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.Period;
-import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
 @Slf4j
@@ -21,12 +22,11 @@ import java.util.UUID;
 public class CustomerService {
 
     private final CustomerRepository customerRepository;
-    private static final String DATE_FORMAT = "dd-MM-yyyy";
 
     public Customer getCustomerById(String id) {
         log.info("Get user by id: {}", id);
         return customerRepository.findById(UUID.fromString(id))
-                .orElseThrow(() -> new NotFoundException("User not found"));
+                .orElseThrow(() -> new NotFoundException(ErrorMessage.NOT_FOUND.formatted("Customer")));
     }
 
     public Customer saveCustomer(CustomerRequest request) {
@@ -51,8 +51,7 @@ public class CustomerService {
 
     private void validateCustomer(CustomerRequest request) {
         // Validate Age
-        var formatter = DateTimeFormatter.ofPattern(DATE_FORMAT);
-        var dateOfBirth = LocalDate.parse(request.dateOfBirth(), formatter);
+        var dateOfBirth = DateFormatUtils.stringToLocalDate(request.dateOfBirth());
         var currentDate = LocalDate.now();
         var period = Period.between(dateOfBirth, currentDate);
 

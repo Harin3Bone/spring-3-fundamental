@@ -11,6 +11,8 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 
+import static com.tutorial.springfundamental.constants.ErrorMessage.NOT_FOUND;
+
 @Service
 @RequiredArgsConstructor
 public class KeyboardService {
@@ -23,7 +25,7 @@ public class KeyboardService {
 
     public Keyboard getKeyboardById(String id) {
         return keyboardRepository.findById(UUID.fromString(id))
-                .orElseThrow(() -> new NotFoundException("Keyboard not found"));
+                .orElseThrow(() -> new NotFoundException(NOT_FOUND.formatted("Keyboard")));
     }
 
     public Keyboard saveKeyboard(KeyboardRequest request) {
