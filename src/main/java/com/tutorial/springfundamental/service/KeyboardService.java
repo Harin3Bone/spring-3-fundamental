@@ -33,6 +33,7 @@ public class KeyboardService {
         keyboard.setName(request.name());
         keyboard.setQuantity(request.quantity());
         keyboard.setPrice(BigDecimal.valueOf(request.price()));
+        keyboard.setCategoryId(UUID.fromString(request.categoryId()));
 
         keyboardRepository.save(keyboard);
 

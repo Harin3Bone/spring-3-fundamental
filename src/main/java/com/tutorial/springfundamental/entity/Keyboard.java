@@ -26,6 +26,9 @@ public class Keyboard {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
+    @Column(name = "categoryid")
+    private UUID categoryId;
+
     @Column(name = "name")
     private String name;
 

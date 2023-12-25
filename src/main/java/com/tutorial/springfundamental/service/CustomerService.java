@@ -33,7 +33,7 @@ public class CustomerService {
         // Validate pre-requisite
         try {
             log.info("Create user with username: {}", request.username());
-            validateCustomer(request);
+            validateCustomerAge(request);
 
             // Create user
             var customer = new Customer();
@@ -49,7 +49,7 @@ public class CustomerService {
         }
     }
 
-    private void validateCustomer(CustomerRequest request) {
+    private void validateCustomerAge(CustomerRequest request) {
         // Validate Age
         var dateOfBirth = DateFormatUtils.stringToLocalDate(request.dateOfBirth());
         var currentDate = LocalDate.now();
