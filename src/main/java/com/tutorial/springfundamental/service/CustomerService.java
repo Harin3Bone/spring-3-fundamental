@@ -9,6 +9,7 @@ import com.tutorial.springfundamental.repository.CustomerRepository;
 import com.tutorial.springfundamental.utils.DateFormatUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
@@ -35,10 +36,12 @@ public class CustomerService {
             log.info("Create user with username: {}", request.username());
             validateCustomerAge(request);
 
+            var hashPassword = BCrypt.hashpw(request.password(), BCrypt.gensalt());
+
             // Create user
             var customer = new Customer();
             customer.setUsername(request.username());
-            customer.setPassword(request.password());
+            customer.setPassword(hashPassword);
             customer.setEmail(request.email());
             customer.setDateOfBirth(Date.valueOf(request.dateOfBirth()));
 
@@ -46,6 +49,9 @@ public class CustomerService {
         } catch (InvalidException e) {
             log.error("Invalid request: {}", e.getMessage());
             throw e;
+        } catch (Exception e) {
+            log.error("Failed to create user: {}", e.getMessage(), e);
+            throw new InvalidException("Failed to create user");
         }
     }
 
