@@ -18,7 +18,12 @@ import java.util.regex.Pattern;
 public class SecurityConfig {
 
     private static final String[] WHITE_LIST = {
+            "/actuator/**",
 
+            // -- OpenAPI 3.0 Specification
+            "/v3/api-docs/**",
+            "/swagger-ui/**",
+            "/swagger-ui.html"
     };
 
     private static final String[] BLACK_LIST = {

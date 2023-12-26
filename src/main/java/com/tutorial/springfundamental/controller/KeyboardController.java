@@ -3,6 +3,8 @@ package com.tutorial.springfundamental.controller;
 import com.tutorial.springfundamental.dto.KeyboardRequest;
 import com.tutorial.springfundamental.entity.Keyboard;
 import com.tutorial.springfundamental.service.KeyboardService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -22,12 +24,14 @@ import java.util.List;
 @RestController
 @RequestMapping("/keyboard")
 @RequiredArgsConstructor
+@Tag(name = "Keyboard", description = "Keyboard API")
 public class KeyboardController {
 
     private final KeyboardService keyboardService;
 
     @GetMapping(value = "")
     @ResponseStatus(HttpStatus.OK)
+    @Operation(summary = "Get all keyboard", description = "Get all keyboard in table")
     public List<Keyboard> getAllKeyboard() {
         return keyboardService.getAllKeyboard();
     }
