@@ -1,5 +1,6 @@
 package com.tutorial.springfundamental.utils;
 
+import com.tutorial.springfundamental.exception.InvalidException;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
@@ -12,7 +13,11 @@ public class DateFormatUtils {
     private static final String DATE_FORMAT = "yyyy-MM-dd";
 
     public static LocalDate stringToLocalDate(String date) {
-        var formatter = DateTimeFormatter.ofPattern(DATE_FORMAT);
-        return LocalDate.parse(date, formatter);
+        try {
+            var formatter = DateTimeFormatter.ofPattern(DATE_FORMAT);
+            return LocalDate.parse(date, formatter);
+        } catch (Exception e) {
+            throw new InvalidException("Invalid date format. Please use yyyy-MM-dd");
+        }
     }
 }
