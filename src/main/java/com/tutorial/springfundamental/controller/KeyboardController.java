@@ -36,6 +36,23 @@ public class KeyboardController {
         return keyboardService.getAllKeyboard();
     }
 
+    @GetMapping(value = "/pagination")
+    @ResponseStatus(HttpStatus.OK)
+    @Operation(summary = "Get all keyboard with pagination", description = "Get all keyboard in table with pagination")
+    public List<Keyboard> getAllKeyboardWithPagination(@RequestParam("page") int page, @RequestParam("size") int size) {
+        return keyboardService.getAllKeyboardWithPagination(page, size, null, null);
+    }
+
+    @GetMapping(value = "/pagination/sort")
+    @ResponseStatus(HttpStatus.OK)
+    @Operation(summary = "Get all keyboard with pagination and sort", description = "Get all keyboard in table with pagination and sortable")
+    public List<Keyboard> getAllKeyboardWithPaginationAndSort(
+            @RequestParam("page") int page, @RequestParam("size") int size,
+            @RequestParam("sort") String sortBy, @RequestParam("orderBy") String orderBy
+    ) {
+        return keyboardService.getAllKeyboardWithPagination(page, size, sortBy, orderBy);
+    }
+
     @GetMapping(value = "/path/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Keyboard getKeyboardByIdWithPathVariable(@PathVariable("id") String id) {

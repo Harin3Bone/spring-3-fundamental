@@ -2,15 +2,22 @@ package com.tutorial.springfundamental.service;
 
 import com.tutorial.springfundamental.dto.KeyboardRequest;
 import com.tutorial.springfundamental.entity.Keyboard;
+import com.tutorial.springfundamental.exception.InvalidException;
 import com.tutorial.springfundamental.exception.NotFoundException;
 import com.tutorial.springfundamental.repository.KeyboardRepository;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 
+import static com.tutorial.springfundamental.constants.ErrorMessage.INVALID_SORT_BY;
 import static com.tutorial.springfundamental.constants.ErrorMessage.NOT_FOUND;
 
 @Service
@@ -21,6 +28,39 @@ public class KeyboardService {
 
     public List<Keyboard> getAllKeyboard() {
         return keyboardRepository.findAllBy();
+    }
+
+    /*
+     * @param
+     * - page: page number, default 0
+     * - size: size of record per page, default 10
+     * - sortBy: sort by column name, default null
+     * - sortDirection: sort direction, default null (asc)
+     *
+     */
+    public List<Keyboard> getAllKeyboardWithPagination(int page, int size, String sortBy, String order) {
+        Pageable pageable;
+
+        // Setup default page and size value
+        page = page <= 0 ? 1 : page - 1;
+        size = size <= 0 ? 10 : size;
+
+        if (StringUtils.isNotBlank(sortBy)) {
+            // Setup order direction
+            var orderBy = StringUtils.isBlank(order) ? Sort.Direction.ASC : Sort.Direction.valueOf(order.toUpperCase());
+
+            // Validate sort by specific column
+            if (!isSortByValid(sortBy)) {
+                throw new InvalidException(INVALID_SORT_BY.formatted(sortBy));
+            }
+
+            pageable = PageRequest.of(page, size, orderBy, sortBy);
+        } else {
+            pageable = PageRequest.of(page, size);
+        }
+
+        var keyboardPagination = keyboardRepository.findAll(pageable);
+        return keyboardPagination.getContent();
     }
 
     public Keyboard getKeyboardById(String id) {
@@ -53,6 +93,13 @@ public class KeyboardService {
     public void deleteKeyboard(String id) {
         var existingKeyboard = getKeyboardById(id);
         keyboardRepository.delete(existingKeyboard);
+    }
+
+    private boolean isSortByValid(String sortBy) {
+        return switch (sortBy) {
+            case "name", "price", "quantity" -> true;
+            default -> false;
+        };
     }
 
 }

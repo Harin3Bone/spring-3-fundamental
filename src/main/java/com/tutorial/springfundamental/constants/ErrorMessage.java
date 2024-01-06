@@ -7,5 +7,6 @@ import lombok.NoArgsConstructor;
 public class ErrorMessage {
 
     public static final String NOT_FOUND = "%s not found";
+    public static final String INVALID_SORT_BY = "unable to sort by column %s";
 
 }
