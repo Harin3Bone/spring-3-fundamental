@@ -2,7 +2,6 @@ package com.tutorial.springfundamental.service;
 
 import com.tutorial.springfundamental.dto.CustomerRequest;
 import com.tutorial.springfundamental.entity.Customer;
-import com.tutorial.springfundamental.entity.Keyboard;
 import com.tutorial.springfundamental.exception.InvalidException;
 import com.tutorial.springfundamental.repository.CustomerRepository;
 import org.junit.jupiter.api.Test;
@@ -12,7 +11,6 @@ import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.mockito.stubbing.Answer;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 
 import java.text.ParseException;
