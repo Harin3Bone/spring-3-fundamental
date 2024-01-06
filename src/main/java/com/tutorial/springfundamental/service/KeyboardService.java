@@ -6,6 +6,7 @@ import com.tutorial.springfundamental.exception.InvalidException;
 import com.tutorial.springfundamental.exception.NotFoundException;
 import com.tutorial.springfundamental.repository.KeyboardRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -19,6 +20,7 @@ import java.util.UUID;
 import static com.tutorial.springfundamental.constants.ErrorMessage.INVALID_SORT_BY;
 import static com.tutorial.springfundamental.constants.ErrorMessage.NOT_FOUND;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class KeyboardService {
@@ -26,7 +28,7 @@ public class KeyboardService {
     private final KeyboardRepository keyboardRepository;
 
     public List<Keyboard> getAllKeyboard() {
-        return keyboardRepository.findAllBy();
+        return keyboardRepository.findAll();
     }
 
     /*
