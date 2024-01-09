@@ -1,16 +1,19 @@
 package com.tutorial.springfundamental.service;
 
+import com.tutorial.springfundamental.dto.KeyboardSearch;
 import com.tutorial.springfundamental.dto.KeyboardRequest;
 import com.tutorial.springfundamental.entity.Keyboard;
 import com.tutorial.springfundamental.exception.InvalidException;
 import com.tutorial.springfundamental.exception.NotFoundException;
 import com.tutorial.springfundamental.repository.KeyboardRepository;
+import com.tutorial.springfundamental.repository.KeyboardSpecification;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -26,6 +29,7 @@ import static com.tutorial.springfundamental.constants.ErrorMessage.NOT_FOUND;
 public class KeyboardService {
 
     private final KeyboardRepository keyboardRepository;
+    private final KeyboardSpecification keyboardSpecification;
 
     public List<Keyboard> getAllKeyboard() {
         return keyboardRepository.findAll();
@@ -69,6 +73,15 @@ public class KeyboardService {
                 .orElseThrow(() -> new NotFoundException(NOT_FOUND.formatted("Keyboard")));
     }
 
+    public List<Keyboard> getAllKeyboardWithSearch(KeyboardSearch keyboardSearch) {
+        Specification<Keyboard> spec = Specification
+                .where(keyboardSpecification.nameSpec(keyboardSearch.name()))
+                .and(keyboardSpecification.quantitySpec(keyboardSearch.quantity()))
+                .and(keyboardSpecification.priceSpec(keyboardSearch.priceMin(), keyboardSearch.priceMax()));
+
+        return keyboardRepository.findAll(spec);
+    }
+
     public Keyboard saveKeyboard(KeyboardRequest request) {
         var keyboard = new Keyboard();
         keyboard.setName(request.name());
@@ -98,7 +111,7 @@ public class KeyboardService {
 
     private boolean isSortByValid(String sortBy) {
         return switch (sortBy) {
-            case "name", "price", "quantity" -> true;
+            case "key", "price", "quantity" -> true;
             default -> false;
         };
     }

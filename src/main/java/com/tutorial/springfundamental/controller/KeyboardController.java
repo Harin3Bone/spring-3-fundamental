@@ -1,5 +1,6 @@
 package com.tutorial.springfundamental.controller;
 
+import com.tutorial.springfundamental.dto.KeyboardSearch;
 import com.tutorial.springfundamental.dto.KeyboardRequest;
 import com.tutorial.springfundamental.entity.Keyboard;
 import com.tutorial.springfundamental.service.KeyboardService;
@@ -44,6 +45,13 @@ public class KeyboardController {
             @RequestParam("sort") String sort, @RequestParam("order") String order
     ) {
         return keyboardService.getAllKeyboardWithPagination(page, size, sort, order);
+    }
+
+    @PostMapping(value = "/v1/search")
+    @ResponseStatus(HttpStatus.OK)
+    @Operation(summary = "Get all keyboard with filter", description = "Get all keyboard in table with filter")
+    public List<Keyboard> getAllKeyboardWithFilter(@RequestBody KeyboardSearch filter) {
+        return keyboardService.getAllKeyboardWithSearch(filter);
     }
 
     @GetMapping(value = "/path/{id}")
